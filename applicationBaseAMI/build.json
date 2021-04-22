@@ -1,0 +1,25 @@
+{
+    "builders": [
+        {
+            "type":                 "amazon-ebs",
+            "region":               "{{user `region`}}",
+            "instance_type":        "{{user `instance_type`}}",
+            "ssh_username":         "{{user `ssh_username`}}",
+            "ami_name":             "{{user `ami_name`}}-{{isotime | clean_resource_name}}",
+            "source_ami":           "{{user `source_ami`}}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type":   "shell",
+            "script": "packages_script.sh"
+        }
+    ],
+    "post-processors": [
+        {
+            "type":   "manifest",
+            "output": "output.json"
+        }
+    ]
+}
+

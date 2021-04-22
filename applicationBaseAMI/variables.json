@@ -1,0 +1,9 @@
+{
+    "instance_type":       "t3.medium",
+    "ssh_username":        "ubuntu",
+    "ami_name":            "Application-Base-AMI",
+    "region":              "us-east-1",
+    "root_device_type":    "ebs",
+    "virtualization_type": "hvm",
+    "source_ami":          "ami-042e8287309f5df03"
+}
