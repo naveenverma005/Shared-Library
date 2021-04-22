@@ -1,7 +1,0 @@
-@Library("shared-library") _
-node 
-{
-    packerWorkflow.call(
-        configFilePath: "applicationBaseAMI/config.properties"
-    )
-}
