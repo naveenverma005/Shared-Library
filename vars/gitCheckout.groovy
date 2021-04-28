@@ -3,6 +3,8 @@
 def checkoutCode() {
     stage("Checking out code repository") 
     {
-        checkout scm
+        $class: 'GitSCM',
+        branches: [[name:  stageParams.branch ]],
+        userRemoteConfigs: [[ url: stageParams.url ]]
     }
 }
