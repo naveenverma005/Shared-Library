@@ -5,7 +5,7 @@ def validatePacker(Map stepParams)
     {
         packerAction.executeAction(
             codePath: "${config.CODE_BASE_PATH}",
-            operation: "validate"
+            operation: "validate",
             varfile: "${config.variableFile}",
             packerfile: "${config.packerBuilderFile}"
         )
@@ -18,7 +18,7 @@ def buildPacker(Map stepParams)
     {
         packerAction.executeAction(
             codePath: "${config.CODE_BASE_PATH}",
-            operation: "build"
+            operation: "build",
             varfile: "${config.variableFile}",
             packerfile: "${config.packerBuilderFile}"
         )
