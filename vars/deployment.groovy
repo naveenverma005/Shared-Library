@@ -7,17 +7,17 @@ def deployment(Map stepParams)
         {
             codePath: "${config.CODE_BASE_PATH}"
             sh 'aws ssm get-parameters-by-path --path /coinsfast/dev --recursive --with-decryption --output text   --query "Parameters[].[Name,Value]" | sed  -e \'s/\\/coinsfast\\///\' | sed -e \'s/dev\\///\' | sed -e \'s/$/"/g\' | sed -r \'s/\\s+/="/g\' > .env'
-            sh " ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} 'rm ${stepsParams.applicationPath}.env' "
-            sh " scp -i ${stepsParams.credentials} .env ${stepsParams.user}@${stepsParams.ipaddress_1}:${stepsParams.applicationPath} "
-            sh " ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} 'cp -prf ${stepsParams.applicationPath}* ${stepsParams.applicationBackup}' "
-            sh " ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_2} 'rm ${stepsParams.applicationPath}.env' "
-            sh " scp -i ${stepsParams.credentials} .env ${stepsParams.user}@${stepsParams.ipaddress_2}:${stepsParams.applicationPath} "
-            sh " ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_2} 'cp -prf ${stepsParams.applicationPath}* ${stepsParams.applicationBackup}' "
+            sh 'ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} \'rm ${stepsParams.applicationPath}.env'
+            sh 'scp -i ${stepsParams.credentials} .env ${stepsParams.user}@${stepsParams.ipaddress_1}:${stepsParams.applicationPath}'
+            sh 'ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} \'cp -prf ${stepsParams.applicationPath}* ${stepsParams.applicationBackup}\''
+            sh 'ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_2} \'rm ${stepsParams.applicationPath}.env\''
+            sh 'scp -i ${stepsParams.credentials} .env ${stepsParams.user}@${stepsParams.ipaddress_2}:${stepsParams.applicationPath}'
+            sh 'ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_2} \'cp -prf ${stepsParams.applicationPath}* ${stepsParams.applicationBackup}\''
         }
         stage('Deploy to the Test environment')
         {
-            sh " rsync -avz --no-perms --exclude '.git' ${WORKSPACE}/* ${stepsParams.user}@${stepsParams.ipaddress_1}:${stepsParams.applicationPath}"
-            sh " rsync -avz --no-perms --exclude '.git' ${WORKSPACE}/* ${stepsParams.user}@${stepsParams.ipaddress_2}:${stepsParams.applicationPath}"
+            sh 'rsync -avz --no-perms --exclude \'.git\' ${WORKSPACE}/* ${stepsParams.user}@${stepsParams.ipaddress_1}:${stepsParams.applicationPath}'
+            sh 'rsync -avz --no-perms --exclude \'.git\' ${WORKSPACE}/* ${stepsParams.user}@${stepsParams.ipaddress_2}:${stepsParams.applicationPath}'
         }
     }
 
@@ -25,8 +25,8 @@ def deployment(Map stepParams)
     {
         stage('Rollback to Previous version')
         {
-            sh " ssh ${stepsParams.user}@${stepsParams.ipaddress_1} 'cp -rf ${stepsParams.applicationBackup}* ${stepsParams.applicationPath} '"
-            sh " ssh ${stepsParams.user}@${stepsParams.ipaddress_2} 'cp -rf ${stepsParams.applicationBackup}* ${stepsParams.applicationPath}'"
+            sh 'ssh ${stepsParams.user}@${stepsParams.ipaddress_1} \'cp -rf ${stepsParams.applicationBackup}* ${stepsParams.applicationPath}\''
+            sh 'ssh ${stepsParams.user}@${stepsParams.ipaddress_2} \'cp -rf ${stepsParams.applicationBackup}* ${stepsParams.applicationPath}\''
         }
     }
 }
