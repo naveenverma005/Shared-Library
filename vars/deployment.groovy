@@ -10,7 +10,8 @@ def deployment(Map stepParams)
             sh 'aws ssm get-parameters-by-path --path /coinsfast/dev --recursive --with-decryption --output text   --query "Parameters[].[Name,Value]" | sed  -e \'s/\\/coinsfast\\///\' | sed -e \'s/dev\\///\' | sed -e \'s/$/"/g\' | sed -r \'s/\\s+/="/g\' > .env'
             sh "cat .env"
             //sh 'ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} \'rm ${stepsParams.applicationPath}.env\''
-            sh '''ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} "rm ${stepsParams.applicationPath}.env" '''
+            echo '''ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} 'rm ${stepsParams.applicationPath}.env' '''
+            sh '''ssh -i ${stepsParams.credentials} ${stepsParams.user}@${stepsParams.ipaddress_1} 'rm ${stepsParams.applicationPath}.env' '''
             
             sh 'echo "passed"'
             sh 'scp -i ${stepsParams.credentials} .env ${stepsParams.user}@${stepsParams.ipaddress_1}:${stepsParams.applicationPath}'
