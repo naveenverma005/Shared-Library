@@ -5,7 +5,7 @@ def deployment(Map stepParams)
     {
         stage('Taking Backup')
         {
-            codePath: "${config.CODE_BASE_PATH}"
+            codePath: "${config.CODE_BASE_PATH}",
             //sh "aws ssm get-parameters-by-path --path /coinsfast/dev --recursive --with-decryption --output text   --query 'Parameters[].[Name,Value]' | sed  -e \'s/\\/coinsfast\\///\' | sed -e \'s/dev\\///\' | sed -e \'s/$/"/g\' | sed -r \'s/\\s+/="/g\' > .env"
             sh 'aws ssm get-parameters-by-path --path /coinsfast/dev --recursive --with-decryption --output text   --query "Parameters[].[Name,Value]" | sed  -e \'s/\\/coinsfast\\///\' | sed -e \'s/dev\\///\' | sed -e \'s/$/"/g\' | sed -r \'s/\\s+/="/g\' > .env'
             sh "cat .env"
