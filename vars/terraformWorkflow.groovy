@@ -117,7 +117,7 @@ def call(Map stepParams)
   try 
   {
     initializeTerraform(
-      codeBasePath: "${config.CODE_BASE_PATH}",
+      codeBasePath: "${config.CODE_BASE_PATH}"
     )
   } 
   catch (Exception e) 
