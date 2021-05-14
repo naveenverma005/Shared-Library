@@ -81,7 +81,7 @@ def sendFailNotification(Map stepParams)
 def call(Map stepParams) {
   try 
   {
-    git.checkoutCode()
+    gitCheckout.checkoutCode()
   } 
   catch (Exception e) 
   {
