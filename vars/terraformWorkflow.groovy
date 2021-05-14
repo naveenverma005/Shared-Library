@@ -146,22 +146,22 @@ def call(Map stepParams) {
     echo e.toString()
     throw e
   }
-  try 
-  {
-    lintingTerraformCode(
-      codeBasePath: "${config.CODE_BASE_PATH}"
-    )
-  } 
-  catch (Exception e) 
-  {
-    echo "Failed while linting Terraform Code! Please look into your code"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Failed while linting Terraform Code! Please look into your code"
-    )
-    echo e.toString()
-    throw e
-  }
+  // try 
+  // {
+  //   lintingTerraformCode(
+  //     codeBasePath: "${config.CODE_BASE_PATH}"
+  //   )
+  // } 
+  // catch (Exception e) 
+  // {
+  //   echo "Failed while linting Terraform Code! Please look into your code"
+  //   sendFailNotification(
+  //     channelName: "${config.SLACK_CHANNEL_NAME}",
+  //     message: "Failed while linting Terraform Code! Please look into your code"
+  //   )
+  //   echo e.toString()
+  //   throw e
+  // }
   try 
   {
     planInfrastructure(
@@ -179,7 +179,7 @@ def call(Map stepParams) {
   }
   try 
   {
-    //input message: 'Press Yes to apply changes', ok: 'YES'
+    input message: 'Press Yes to apply changes', ok: 'YES'
     createInfrastructure(
       codeBasePath: "${config.CODE_BASE_PATH}"
     )
