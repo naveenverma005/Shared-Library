@@ -1,4 +1,3 @@
-#!/usr/bin/env groovy
 def initializeTerraform(Map stepParams) 
 {
   stage("Terraform Initializing") 
