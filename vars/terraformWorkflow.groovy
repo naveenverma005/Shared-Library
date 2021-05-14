@@ -64,30 +64,6 @@ def createInfrastructure(Map stepParams)
   }
 }
 
-def sendSuccessNotification(Map stepParams) 
-{
-  stage("Sending success notification on slack") 
-  {
-    notification.sendSlackNotification(
-      slackChannel: "${stepParams.channelName}",
-      buildStatus: "good",
-      message: "${stepParams.message}"
-    )
-  }
-}
-
-def sendFailNotification(Map stepParams) 
-{
-  stage("Sending failure notification on slack") 
-  {
-    notification.sendSlackNotification(
-      slackChannel: "${stepParams.channelName}",
-      buildStatus: "danger",
-      message: "${stepParams.message}"
-    )
-  }
-}
-
 def call(Map stepParams) 
 {
   try 
@@ -123,10 +99,6 @@ def call(Map stepParams)
   catch (Exception e) 
   {
     echo "Unable to initialize Terraform"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Unable to initialize Terraform"
-    )
     echo e.toString()
     throw e
   }
@@ -140,10 +112,6 @@ def call(Map stepParams)
   catch (Exception e) 
   {
     echo "Failed while formatting Terraform Code! Please look into your code"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Failed while linting Terraform Code! Please look into your code"
-    )
     echo e.toString()
     throw e
   }
@@ -157,10 +125,6 @@ def call(Map stepParams)
   catch (Exception e) 
   {
     echo "Failed while Terraform Code Validation! Please look into your code"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Failed while Terraform Code Validation! Please look into your code"
-    )
     echo e.toString()
     throw e
   }
@@ -174,10 +138,6 @@ def call(Map stepParams)
   catch (Exception e) 
   {
     echo "Failed while linting Terraform Code! Please look into your code"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Failed while linting Terraform Code! Please look into your code"
-    )
     echo e.toString()
     throw e
   }
@@ -191,10 +151,6 @@ def call(Map stepParams)
   catch (Exception e) 
   {
     echo "Failed during planning Infrastructure"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Failed while planning"
-    )
     echo e.toString()
     throw e
   }
@@ -209,21 +165,7 @@ def call(Map stepParams)
   catch (Exception e) 
   {
     echo "Unable to Apply Terraform"
-    sendFailNotification(
-      channelName: "${config.SLACK_CHANNEL_NAME}",
-      message: "Failed while applying"
-    )
     echo e.toString()
     throw e
   }
-  sendSuccessNotification(
-    channelName: "${config.SLACK_CHANNEL_NAME}",
-    message: "Successfully applied"   
-  )
-}
-
-def sendSlackNotification(Map stepParams) {
-    slackSend channel: "${stepParams.slackChannel}",
-    color: "${stepParams.buildStatus}",
-    message: "JOB_NAME:- ${env.JOB_NAME}\n BUILD_URL:- ${env.BUILD_URL}\n"
 }
