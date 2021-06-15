@@ -103,7 +103,7 @@ def call (Map stepsParams)
         {
             stage('Rollingback to the previous version')
             {
-                sh " ssh ${stepsParams.user}@${stepsParams.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
+                sh " ssh ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
             }
         }
     }
