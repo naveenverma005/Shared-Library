@@ -4,7 +4,7 @@ def call (Map stepsParams)
     commonfile.cleanWorkspace()
     try
     {
-        git.checkoutCode()
+        gitCheckout.checkoutCode()
     }
     catch(Exception e)
     {
