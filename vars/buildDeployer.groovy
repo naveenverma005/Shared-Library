@@ -103,7 +103,7 @@ def call (Map stepsParams)
         {
             stage('Rollingback to the previous version')
             {
-                sh " ssh ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
+                sh " ssh -i /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
             }
         }
     }
@@ -126,7 +126,7 @@ def call (Map stepsParams)
         {
             stage('Rollingback to the previous version')
             {
-                sh " ssh /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
+                sh " ssh -i /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
             }
         }
     }
@@ -149,7 +149,7 @@ def call (Map stepsParams)
         {
             stage('Rollingback to the previous version')
             {
-                sh " ssh /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
+                sh " ssh -i /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
             }
         }
     }
