@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
-def readPropertyFile(Map stepParams) {
-    config = readProperties file: "${stepParams.configFilePath}"
+def readPropertyFile(Map stepsParams) {
+    config = readProperties file: "${stepsParams.configFilePath}"
     return config
 }
 
