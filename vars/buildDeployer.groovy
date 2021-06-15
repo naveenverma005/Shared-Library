@@ -126,7 +126,30 @@ def call (Map stepsParams)
         {
             stage('Rollingback to the previous version')
             {
-                sh " ssh ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
+                sh " ssh /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
+            }
+        }
+    }
+
+    if("${config.environment}" == "webhook")
+    {
+        if ( "${deploy}" == "true" )
+        {
+            stage('Taking Backup')
+            {
+                sh " ssh -i /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -prf ${config.applicationPath}* ${config.applicationBackup}' "
+            }
+            stage('Deploying to the WebHook Server')
+            {
+                sh " rsync -avz --no-perms --exclude '.git' ${WORKSPACE}/* ${config.user}@${config.ipaddress}:${config.applicationPath}"
+            }
+        }
+
+        if ( "${rollback}" == "true" )
+        {
+            stage('Rollingback to the previous version')
+            {
+                sh " ssh /var/lib/jenkins/testServer.pem ${config.user}@${config.ipaddress} 'cp -rf ${config.applicationBackup}* ${config.applicationPath} '"
             }
         }
     }
