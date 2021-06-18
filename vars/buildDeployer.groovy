@@ -45,8 +45,8 @@ def call (Map stepsParams)
     {
         try
         {
-            // dependencyCheck additionalArguments: '', odcInstallation: 'Default-Dependency-Check'
-            // dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+            dependencyCheck additionalArguments: '', odcInstallation: 'cfast-OWASP'
+            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
         }
         catch(Exception e)
         {
